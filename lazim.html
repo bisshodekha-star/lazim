@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#2e9a45">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Md. LAZIM</title>
+<style>
+:root{--bg:#f4faf4;--card:#fff;--tx:#1f3a24;--mu:#5f7a63;--bd:#d6e6d7;--ac:#2e9a45;--bad:#d94545;--okbg:#e3f6e6;--badbg:#fdecec;--btn:#2e9a45;--btntx:#fff;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,#e6f5e8 0%,#f3faf1 45%,#fff8e6 100%) fixed;color:var(--tx);font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:2rem;font-weight:800;letter-spacing:.12em;text-align:center;margin:10px 0 22px;padding-bottom:12px;position:relative;background:linear-gradient(90deg,var(--ac),#f5a623);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+h1::after{content:"";position:absolute;left:50%;bottom:0;width:70px;height:4px;margin-left:-35px;border-radius:4px;background:linear-gradient(90deg,var(--ac),#f5a623)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(46,154,69,.10)}
+.card h2{font-size:1rem;margin:0 0 12px;color:var(--ac);font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:.85rem;color:var(--mu)}
+input{width:100%;margin-top:4px;padding:11px;font-size:1.05rem;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font-family:inherit}
+input.err{border-color:var(--bad);border-width:2px}
+.erow{display:grid;grid-template-columns:1fr 110px 40px;gap:8px;margin-bottom:8px;align-items:center}
+.erow input{margin:0}
+.x{padding:0;height:42px;width:40px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--bad);font-size:1.2rem}
+.btn{width:100%;padding:14px;font-size:1.15rem;font-weight:700;border-radius:12px;border:0;background:linear-gradient(135deg,#2e9a45,#5ac46c);color:var(--btntx);font-family:inherit;margin-bottom:14px;box-shadow:0 6px 14px rgba(46,154,69,.30)}
+.sec{width:100%;padding:10px;font-size:.95rem;border-radius:10px;border:1px dashed var(--bd);background:transparent;color:var(--tx);font-family:inherit}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sm{padding:6px 12px;font-size:.85rem;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-family:inherit}
+.res{border-width:3px;display:none;text-align:center;padding:20px 14px}
+.res.ok{display:block;background:var(--okbg);border-color:var(--ac)}
+.res.bad{display:block;background:var(--badbg);border-color:var(--bad)}
+.big{font-size:3rem;font-weight:800;line-height:1.2;margin:4px 0}
+.ok .big{color:var(--ac)}.bad .big{color:var(--bad)}
+.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed var(--bd)}
+.row:last-child{border:0}
+.row b{white-space:nowrap}
+.tot{font-weight:700}
+.note{font-size:.8rem;color:var(--mu)}
+.errbox{display:none;background:var(--badbg);border:2px solid var(--bad);color:var(--bad);border-radius:12px;padding:12px;margin-bottom:14px}
+.errbox ul{margin:6px 0 0;padding-left:20px}
+#det{display:none}
+.bi{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px dashed var(--bd)}
+.bi{cursor:pointer}.bd{display:none;padding:6px 4px 14px;border-bottom:1px dashed var(--bd)}
+.bi .nm{font-weight:700}
+.p{color:var(--ac);font-weight:700}.l{color:var(--bad);font-weight:700}
+.bi.cur{background:var(--okbg);border-radius:8px;padding:10px 8px}
+.msg{min-height:1.4em;text-align:center;font-size:.9rem;color:var(--ac);margin:-6px 0 10px}
+.warn{display:none;background:var(--badbg);color:var(--bad);border-radius:10px;padding:10px;margin-bottom:12px;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Md. LAZIM</h1>
+<div class="warn" id="warn">এই ব্রাউজারে ডাটা সেভ করা যাচ্ছে না (প্রাইভেট মোড হতে পারে)। হিসাব কাজ করবে, কিন্তু সেভ হবে না।</div>
+
+<div class="card"><h2>ব্যাচ</h2>
+<label>ব্যাচের নাম<input id="bname" placeholder="যেমন: ডিসেম্বর ব্যাচ ১" value=""></label>
+</div>
+
+<div class="card"><h2>বাচ্চা</h2><div class="grid">
+<label>বাচ্চার সংখ্যা<input id="chicks" inputmode="decimal" placeholder="লিখুন" value=""></label>
+<label>প্রতি বাচ্চার দাম (টাকা)<input id="cp" inputmode="decimal" placeholder="লিখুন" value=""></label>
+</div></div>
+
+<div class="card"><h2>ফিড</h2><div class="grid">
+<label>ফিড (বস্তা)<input id="bags" inputmode="decimal" placeholder="লিখুন" value=""></label>
+<label>প্রতি বস্তার দাম (টাকা)<input id="bp" inputmode="decimal" placeholder="লিখুন" value=""></label>
+<label>এক বস্তা (কেজি)<input id="bkg" inputmode="decimal" placeholder="লিখুন" value=""></label>
+</div></div>
+
+<div class="card"><h2>অন্যান্য খরচ (টাকা)</h2>
+<div id="exp"></div>
+<button class="sec" id="add" type="button">+ নতুন খরচ যোগ করুন</button>
+</div>
+
+<div class="card"><h2>বিক্রি</h2><div class="grid">
+<label>মরবে (টি)<input id="dead" inputmode="decimal" placeholder="লিখুন" value=""></label>
+<label>প্রতিটির গড় ওজন (কেজি)<input id="w" inputmode="decimal" placeholder="লিখুন" value=""></label>
+<label>বাজারদর (টাকা/কেজি)<input id="rate" inputmode="decimal" placeholder="লিখুন" value=""></label>
+</div></div>
+
+<div class="errbox" id="errbox"></div>
+<button class="btn" id="go" type="button">লাভ দেখুন</button>
+
+<div class="card" id="det"><h2>বিস্তারিত হিসাব</h2><div id="rows"></div></div>
+
+<div class="card res" id="res">
+<div id="lbl" style="font-size:1.1rem;font-weight:700"></div>
+<div class="big" id="profit"></div>
+<div class="note" id="sub"></div>
+</div>
+
+<div class="two">
+<button class="btn" id="save" type="button" style="margin:0;font-size:1rem">💾 ব্যাচ সেভ করুন</button>
+<button class="sec" id="new" type="button">নতুন ব্যাচ শুরু করুন</button>
+</div>
+<div class="msg" id="msg"></div>
+
+<div class="card"><h2>সেভ করা ব্যাচ (ক্লিক করলে বিস্তারিত দেখাবে)</h2>
+<div id="blist"><div class="note">কোনো ব্যাচ সেভ করা নেই।</div></div>
+<div id="btotal" class="row tot" style="display:none;margin-top:8px"></div>
+</div>
+
+<div class="card"><h2>ব্যাকআপ</h2>
+<div class="two" style="margin:0">
+<button class="sec" id="exp-btn" type="button">ব্যাকআপ ডাউনলোড</button>
+<button class="sec" id="imp-btn" type="button">ব্যাকআপ আপলোড</button>
+</div>
+<input type="file" id="imp" accept="application/json,.json" style="display:none">
+<p class="note">ডাটা এই ফোন/কম্পিউটারের ব্রাউজারে সেভ থাকে। ব্রাউজার ডাটা মুছলে বা অন্য ডিভাইসে গেলে হারাবে, তাই মাঝে মাঝে ব্যাকআপ নিন।</p>
+</div>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var ids=["chicks","cp","bags","bp","bkg","dead","w","rate"];
+var labels={chicks:"বাচ্চার সংখ্যা",cp:"প্রতি বাচ্চার দাম",bags:"ফিড (বস্তা)",bp:"প্রতি বস্তার দাম",bkg:"এক বস্তা (কেজি)",dead:"মরবে (টি)",w:"গড় ওজন",rate:"বাজারদর"};
+var DEF_EXP=["ওষুধ","ভ্যাকসিন","শ্রমিক / লেবার","বিদ্যুৎ ও গ্যাস","তুষ / লিটার","পরিবহন","অন্যান্য"];
+var defs={};ids.forEach(function(i){defs[i]=$(i).value});
+function freshExp(){return DEF_EXP.map(function(n){return{n:n,a:""}})}
+var exp=freshExp();
+var curId=null,shown=false,bmap={};
+
+/* ---------- সংখ্যা ও ফরম্যাট ---------- */
+var BN="০১২৩৪৫৬৭৮৯";
+function num(s){
+  s=String(s==null?"":s).trim().replace(/[০-৯]/g,function(d){return BN.indexOf(d)}).replace(/[,\s]/g,"").replace("।",".");
+  if(s==="")return 0;
+  if(!/^(\d+\.?\d*|\.\d+)$/.test(s))return NaN;
+  return parseFloat(s);
+}
+function r2(x){return Math.round((x+Number.EPSILON)*100)/100}
+function r3(x){return Math.round((x+Number.EPSILON)*1000)/1000}
+function bn(n,d){return Number(n).toLocaleString("bn-BD",{minimumFractionDigits:0,maximumFractionDigits:d==null?0:d})}
+function tk(n,d){return "৳ "+bn(n,d==null?2:d)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+/* ---------- IndexedDB ---------- */
+var dbp=new Promise(function(res,rej){
+  if(!window.indexedDB)return rej(new Error("no idb"));
+  var r;try{r=indexedDB.open("murgi-hisab",1)}catch(e){return rej(e)}
+  r.onupgradeneeded=function(){var d=r.result;d.createObjectStore("batches",{keyPath:"id",autoIncrement:true});d.createObjectStore("kv")};
+  r.onsuccess=function(){res(r.result)};
+  r.onerror=function(){rej(r.error)};
+});
+dbp.catch(function(){$("warn").style.display="block"});
+function tx(store,mode,fn){
+  return dbp.then(function(db){return new Promise(function(res,rej){
+    var t=db.transaction(store,mode),rq=fn(t.objectStore(store));
+    t.oncomplete=function(){res(rq&&rq.result)};
+    t.onerror=t.onabort=function(){rej(t.error)};
+  })});
+}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+
+/* ---------- খরচের সারি ---------- */
+function renderExp(){
+  $("exp").innerHTML="";
+  exp.forEach(function(e,i){
+    var d=document.createElement("div");d.className="erow";
+    d.innerHTML='<input aria-label="খরচের নাম" value="'+esc(e.n)+'"><input inputmode="decimal" aria-label="টাকা" placeholder="০" value="'+esc(e.a)+'"><button class="x" type="button" aria-label="মুছুন">×</button>';
+    d.children[0].addEventListener("input",function(){exp[i].n=this.value;draft()});
+    d.children[1].addEventListener("input",function(){exp[i].a=this.value;draft();live()});
+    d.children[2].addEventListener("click",function(){exp.splice(i,1);renderExp();draft();live()});
+    $("exp").appendChild(d);
+  });
+}
+
+/* ---------- হিসাব ---------- */
+function compute(){
+  var errs=[],bad=[],v={};
+  ids.forEach(function(i){$(i).classList.remove("err")});
+  ids.forEach(function(i){
+    if(i!=="dead"&&String($(i).value).trim()===""){v[i]=NaN;errs.push(labels[i]+" লিখুন");bad.push(i);return}
+    v[i]=num($(i).value);if(isNaN(v[i])){errs.push(labels[i]+" ঠিকমতো লিখুন (শুধু সংখ্যা)");bad.push(i)}});
+  var ex=[];
+  document.querySelectorAll("#exp .erow").forEach(function(row,i){
+    var a=num(row.children[1].value);
+    row.children[1].classList.remove("err");
+    if(isNaN(a)){row.children[1].classList.add("err");errs.push("“"+(exp[i].n||"খরচ")+"” এর টাকা ঠিকমতো লিখুন")}
+    else ex.push({n:exp[i].n||"নামহীন খরচ",a:r2(a)});
+  });
+  if(!errs.length){
+    if(v.chicks<=0||v.chicks!==Math.floor(v.chicks)){errs.push("বাচ্চার সংখ্যা ০ এর বেশি পূর্ণসংখ্যা হতে হবে");bad.push("chicks")}
+    if(v.dead!==Math.floor(v.dead)){errs.push("মৃত মুরগির সংখ্যা পূর্ণসংখ্যা হতে হবে");bad.push("dead")}
+    if(v.dead>v.chicks){errs.push("মৃত মুরগি বাচ্চার সংখ্যার চেয়ে বেশি হতে পারে না");bad.push("dead")}
+    if(v.bkg<=0&&v.bags>0){errs.push("এক বস্তা কত কেজি তা দিন");bad.push("bkg")}
+    if(v.w<=0){errs.push("গড় ওজন ০ এর বেশি হতে হবে");bad.push("w")}
+    if(v.rate<=0){errs.push("বাজারদর ০ এর বেশি হতে হবে");bad.push("rate")}
+  }
+  bad.forEach(function(i){$(i).classList.add("err")});
+  if(errs.length)return{errs:errs};
+  return core(v,ex);
+}
+function core(v,ex){
+  var o={ex:ex,v:v};
+  o.chickCost=r2(v.chicks*v.cp);
+  o.feedCost=r2(v.bags*v.bp);
+  o.exTotal=0;ex.forEach(function(e){o.exTotal=r2(o.exTotal+e.a)});
+  o.cost=r2(o.chickCost+o.feedCost+o.exTotal);
+  o.alive=v.chicks-v.dead;
+  o.kg=r3(o.alive*v.w);
+  o.rev=r2(o.kg*v.rate);
+  o.profit=r2(o.rev-o.cost);
+  o.feedKg=r3(v.bags*v.bkg);
+  o.fcr=o.kg>0?o.feedKg/o.kg:0;
+  o.perBird=o.alive>0?o.profit/o.alive:0;
+  o.costKg=o.kg>0?o.cost/o.kg:0;
+  o.margin=o.cost>0?o.profit/o.cost*100:0;
+  o.mort=v.dead/v.chicks*100;
+  return o;
+}
+
+function rowsHTML(o){
+  var ok=o.profit>=0,v=o.v;
+  var rows=[];
+  function R(a,b,c){rows.push('<div class="row'+(c?' tot':'')+'"><span>'+esc(a)+'</span><b>'+b+'</b></div>')}
+  R("বাচ্চা ("+bn(v.chicks)+" × "+bn(v.cp,2)+")",tk(o.chickCost));
+  R("ফিড ("+bn(v.bags,2)+" বস্তা × "+bn(v.bp,2)+")",tk(o.feedCost));
+  o.ex.forEach(function(e){if(e.a>0)R(e.n,tk(e.a))});
+  R("মোট খরচ",tk(o.cost),1);
+  R("বিক্রির মুরগি ("+bn(v.chicks)+" − "+bn(v.dead)+")",bn(o.alive)+" টি");
+  R("মোট ওজন ("+bn(o.alive)+" × "+bn(v.w,3)+")",bn(o.kg,3)+" কেজি");
+  R("মোট বিক্রি ("+bn(o.kg,3)+" × "+bn(v.rate,2)+")",tk(o.rev),1);
+  R("নিট "+(ok?"লাভ":"ক্ষতি")+" (বিক্রি − খরচ)",tk(Math.abs(o.profit)),1);
+  R("প্রতি কেজি উৎপাদন খরচ",tk(o.costKg));
+  R("লোকসান এড়াতে ন্যূনতম দাম/কেজি",tk(o.costKg));
+  R("মৃত্যুহার",bn(o.mort,2)+"%");
+  R("মোট ফিড",bn(o.feedKg,2)+" কেজি");
+  R("FCR (ফিড ÷ মোট ওজন)",bn(o.fcr,2));
+  return rows.join("");
+}
+function calc(){
+  var o=compute(),eb=$("errbox");
+  if(o.errs){
+    eb.style.display="block";
+    eb.innerHTML="<b>ভুল আছে, ঠিক করুন:</b><ul>"+o.errs.map(function(e){return"<li>"+esc(e)+"</li>"}).join("")+"</ul>";
+    $("res").className="card res";$("det").style.display="none";
+    return null;
+  }
+  eb.style.display="none";
+  var ok=o.profit>=0,v=o.v;
+  $("res").className="card res "+(ok?"ok":"bad");
+  $("lbl").textContent=ok?"নিট লাভ":"নিট ক্ষতি";
+  $("profit").textContent=tk(Math.abs(o.profit));
+  $("sub").textContent="প্রতি মুরগিতে "+tk(Math.abs(o.perBird),2)+(ok?" লাভ":" ক্ষতি")+" · খরচের ওপর "+bn(Math.abs(o.margin),1)+"%";
+  $("rows").innerHTML=rowsHTML(o);
+  $("det").style.display="block";
+  return o;
+}
+function live(){if(shown)calc()}
+
+/* ---------- ফর্ম ↔ ডাটা ---------- */
+function formData(){
+  var d={name:$("bname").value.trim(),inputs:{},exp:exp.map(function(e){return{n:e.n,a:e.a}})};
+  ids.forEach(function(i){d.inputs[i]=$(i).value});
+  return d;
+}
+function setForm(d){
+  $("bname").value=d.name||"";
+  ids.forEach(function(i){$(i).value=(d.inputs&&d.inputs[i]!=null)?d.inputs[i]:defs[i]});
+  exp=(d.exp&&d.exp.length)?d.exp.map(function(e){return{n:String(e.n||""),a:String(e.a||"")}}):freshExp();
+  renderExp();
+}
+var dt=null;
+function draft(){}
+function flash(t){$("msg").textContent=t;setTimeout(function(){$("msg").textContent=""},3000)}
+
+/* ---------- ব্যাচ সেভ / লিস্ট ---------- */
+function saveBatch(){
+  shown=true;
+  var o=calc();
+  if(!o){$("errbox").scrollIntoView({behavior:"smooth",block:"start"});return}
+  var d=formData();
+  if(!d.name)d.name="ব্যাচ "+new Date().toLocaleDateString("bn-BD");
+  $("bname").value=d.name;
+  d.result={profit:o.profit,cost:o.cost,rev:o.rev,alive:o.alive,kg:o.kg};
+  d.updatedAt=Date.now();
+  var p=curId!=null?tx("batches","readonly",function(s){return s.get(curId)}):Promise.resolve(null);
+  p.then(function(old){
+    d.createdAt=old?old.createdAt:d.updatedAt;
+    if(old)d.id=curId;
+    return tx("batches","readwrite",function(s){return s.put(d)});
+  }).then(function(key){curId=key;draft();flash("✅ ব্যাচ সেভ হয়েছে");return loadList()})
+    .catch(function(){flash("❌ সেভ করা যায়নি")});
+}
+function loadList(){
+  return tx("batches","readonly",function(s){return s.getAll()}).then(function(all){
+    all=(all||[]).sort(function(a,b){return b.updatedAt-a.updatedAt});
+    var box=$("blist"),tot=$("btotal");
+    if(!all.length){box.innerHTML='<div class="note">কোনো ব্যাচ সেভ করা নেই।</div>';tot.style.display="none";return}
+    var sum=0;bmap={};
+    box.innerHTML=all.map(function(b){
+      var p=b.result?b.result.profit:0;sum=r2(sum+p);
+      bmap[b.id]=b;
+      return '<div class="bw" data-id="'+b.id+'"><div class="bi'+(b.id===curId?' cur':'')+'"><div><div class="nm">▾ '+esc(b.name)+'</div><div class="note">'+new Date(b.updatedAt).toLocaleDateString("bn-BD")+' · <span class="'+(p>=0?'p':'l')+'">'+(p>=0?'লাভ ':'ক্ষতি ')+tk(Math.abs(p),2)+'</span></div></div><div><button class="sm" data-a="open">এডিট</button> <button class="sm" data-a="del" style="color:var(--bad)">মুছুন</button></div></div><div class="bd"></div></div>';
+    }).join("");
+    tot.style.display="flex";
+    tot.innerHTML='<span>সব ব্যাচ মিলিয়ে নিট '+(sum>=0?'লাভ':'ক্ষতি')+' ('+bn(all.length)+'টি)</span><b class="'+(sum>=0?'p':'l')+'">'+tk(Math.abs(sum),2)+'</b>';
+  }).catch(function(){});
+}
+function batchDetail(b){
+  var v={};ids.forEach(function(i){v[i]=num(b.inputs&&b.inputs[i])||0});
+  var ex=(b.exp||[]).map(function(e){return{n:e.n||"নামহীন খরচ",a:r2(num(e.a)||0)}});
+  var o=core(v,ex),ok=o.profit>=0;
+  return '<div class="note">তৈরি: '+new Date(b.createdAt||b.updatedAt).toLocaleDateString("bn-BD")+'</div>'+rowsHTML(o)+
+    '<div style="text-align:center;margin-top:10px;padding:14px;border-radius:12px;border:2px solid var(--'+(ok?'ac':'bad')+');background:var(--'+(ok?'okbg':'badbg')+')"><div style="font-weight:700">'+(ok?'নিট লাভ':'নিট ক্ষতি')+'</div><div class="'+(ok?'p':'l')+'" style="font-size:2.4rem;line-height:1.2">'+tk(Math.abs(o.profit))+'</div><div class="note">প্রতি মুরগিতে '+tk(Math.abs(o.perBird),2)+'</div></div>';
+}
+$("blist").addEventListener("click",function(e){
+  var w=e.target.closest(".bw");if(!w)return;
+  var id=Number(w.dataset.id),b=e.target.closest("button");
+  if(b&&b.dataset.a==="del"){
+    if(!confirm("এই ব্যাচ মুছে ফেলবেন? আর ফেরত পাওয়া যাবে না।"))return;
+    tx("batches","readwrite",function(s){return s.delete(id)}).then(function(){if(curId===id)curId=null;loadList()});
+  }else if(b&&b.dataset.a==="open"){
+    var r=bmap[id];if(!r)return;curId=id;setForm(r);shown=true;calc();loadList();window.scrollTo({top:0,behavior:"smooth"});
+  }else{
+    var p=w.querySelector(".bd");
+    if(p.style.display==="block"){p.style.display="none"}
+    else{p.innerHTML=batchDetail(bmap[id]);p.style.display="block"}
+  }
+});
+function newBatch(){
+  curId=null;shown=false;
+  ids.forEach(function(i){$(i).classList.remove("err")});
+  setForm({name:"",inputs:defs,exp:null});
+  $("res").className="card res";$("det").style.display="none";$("errbox").style.display="none";
+  draft();loadList();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---------- ব্যাকআপ ---------- */
+$("exp-btn").addEventListener("click",function(){
+  tx("batches","readonly",function(s){return s.getAll()}).then(function(all){
+    var blob=new Blob([JSON.stringify({app:"murgi-hisab",v:1,batches:all||[]},null,1)],{type:"application/json"});
+    var a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download="murgi-backup-"+new Date().toISOString().slice(0,10)+".json";
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);
+  }).catch(function(){flash("❌ ব্যাকআপ নেওয়া যায়নি")});
+});
+$("imp-btn").addEventListener("click",function(){$("imp").click()});
+$("imp").addEventListener("change",function(){
+  var f=this.files[0];if(!f)return;var inp=this;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var j=JSON.parse(rd.result);
+      if(!j||j.app!=="murgi-hisab"||!Array.isArray(j.batches))throw 0;
+      dbp.then(function(db){return new Promise(function(res,rej){
+        var t=db.transaction("batches","readwrite"),s=t.objectStore("batches");
+        j.batches.forEach(function(b){delete b.id;s.add(b)});
+        t.oncomplete=res;t.onerror=t.onabort=function(){rej(t.error)};
+      })}).then(function(){flash("✅ "+bn(j.batches.length)+"টি ব্যাচ যোগ হয়েছে");loadList()}).catch(function(){flash("❌ আপলোড ব্যর্থ")});
+    }catch(e){flash("❌ এটি সঠিক ব্যাকআপ ফাইল নয়")}
+    inp.value="";
+  };
+  rd.readAsText(f);
+});
+
+/* ---------- ইভেন্ট ও শুরু ---------- */
+ids.forEach(function(i){$(i).addEventListener("input",function(){draft();live()})});
+$("bname").addEventListener("input",draft);
+$("add").addEventListener("click",function(){exp.push({n:"",a:""});renderExp();var l=$("exp").lastChild;if(l)l.children[0].focus()});
+$("go").addEventListener("click",function(){shown=true;var o=calc();(o?$("res"):$("errbox")).scrollIntoView({behavior:"smooth",block:"start"})});
+$("save").addEventListener("click",saveBatch);
+$("new").addEventListener("click",newBatch);
+
+renderExp();
+/* পেজ খুললে সব ঘর ফাঁকা থাকবে; আগের অটো-সেভ মুছে ফেলা হচ্ছে */
+tx("kv","readwrite",function(s){return s.delete("draft")}).catch(function(){}).then(loadList);
+</script>
+</body>
+</html>
